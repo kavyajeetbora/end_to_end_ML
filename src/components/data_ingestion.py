@@ -8,6 +8,8 @@ from sklearn.model_selection import train_test_split
 
 from dataclasses import dataclass
 
+from data_transformation import DataTransformer
+
 
 @dataclass
 class DataIngestionConfig:
@@ -61,5 +63,15 @@ class DataIngestion:
 
 
 if __name__ == "__main__":
+
+    ## Data Ingestion
     data_injestion_obj = DataIngestion()
-    data_injestion_obj.initiate_data_ingestion()
+    train_data_path, test_data_path = data_injestion_obj.initiate_data_ingestion()
+
+    ## Data Transformation
+    transformer = DataTransformer()
+    X_train, X_test = transformer.initiate_data_transformation(
+        train_data_path, test_data_path
+    )
+
+    print(X_train.shape, X_test.shape)
