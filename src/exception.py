@@ -7,6 +7,7 @@ and will print the error message with this custom message we have define here
 """
 
 import sys
+from logger import logging
 
 
 def error_message_detail(error, error_detail: sys):
@@ -32,3 +33,14 @@ class CustomException(Exception):
 
     def __str__(self):
         return self.error_message
+
+
+if __name__ == "__main__":
+
+    logging.info("Logging has started")
+    try:
+        a = 1 / 0
+    except Exception as e:
+        errorObject = CustomException(e, sys)
+        logging.info(errorObject.__str__())
+        raise errorObject
