@@ -9,6 +9,7 @@ from sklearn.model_selection import train_test_split
 from dataclasses import dataclass
 
 from data_transformation import DataTransformer
+from src.components.data_train import ModelTrainer
 
 
 @dataclass
@@ -71,8 +72,9 @@ if __name__ == "__main__":
 
     ## Data Transformation
     transformer = DataTransformer()
-    X_train, X_test = transformer.initiate_data_transformation(
+    train_arr, test_arr = transformer.initiate_data_transformation(
         train_data_path, test_data_path
     )
 
-    print(X_train.shape, X_test.shape)
+    model_trainer = ModelTrainer()
+    model_trainer.initiate_model_training(train_arr=train_arr, test_arr=test_arr)
