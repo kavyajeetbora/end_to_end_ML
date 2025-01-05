@@ -62,6 +62,7 @@ class DataIngestion:
             raise CustomException(e, sys)
 
 
+# For Testing Purpose
 if __name__ == "__main__":
 
     ## Data Ingestion

@@ -8,6 +8,7 @@ import sys
 # from data_ingestion import DataIngestion
 
 import pandas as pd
+import numpy as np
 
 from sklearn.impute import SimpleImputer
 from sklearn.pipeline import Pipeline
@@ -103,8 +104,13 @@ class DataTransformer:
             ## Set the target and dependent variable
             target_column = "math_score"
 
+            ## Get the dependent variables
             X_train = train_data.drop([target_column], axis=1)
             X_test = test_data.drop([target_column], axis=1)
+
+            ## Get the independent variables
+            y_train = train_data[target_column]
+            y_test = test_data[target_column]
 
             logging.info(
                 f"Input feature for train with {X_train.shape} and test with {X_test.shape} are created"
@@ -114,11 +120,17 @@ class DataTransformer:
             X_train = preprocessor.fit_transform(X_train)
             X_test = preprocessor.transform(X_test)
 
+            logging.info("Concantenating the input and target features")
+
+            ## Concat the transformed input features X and target variable y into one single array
+            train_arr = np.c_[X_train, np.array(y_train)]
+            test_arr = np.c_[X_test, np.array(y_test)]
+
             logging.info(
                 "Successfully Transformed the train and test input features. Ready for training"
             )
 
-            return (X_train, X_test)
+            return (train_arr, test_arr)
 
         except Exception as e:
             raise CustomException(e, sys)
