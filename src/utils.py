@@ -4,6 +4,7 @@ from src.logger import logging
 from src.exception import CustomException
 import dill
 from sklearn.metrics import r2_score
+from sklearn.model_selection import GridSearchCV
 
 
 def save_model(file_path: str, obj: object):
@@ -18,12 +19,21 @@ def save_model(file_path: str, obj: object):
         raise CustomException(e, sys)
 
 
-def evaluate_model(X_train, y_train, X_test, y_test, models):
+def evaluate_model(X_train, y_train, X_test, y_test, models, params):
     try:
         report = {}
 
         for model_name, model in models.items():
+
+            model_params = params[model_name]
+
+            logging.info(f"Performing Grid Search CV for model: {model_name}")
+            gs = GridSearchCV(estimator=model, param_grid=model_params, cv=3)
+            gs.fit(X_train, y_train)
+
             ## Train the model
+            logging.info(f"Grid search completed and best params: {gs.best_params_}")
+            model.set_params(**gs.best_params_)
             model.fit(X_train, y_train)
 
             # Train model prediction
