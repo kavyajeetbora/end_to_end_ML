@@ -76,5 +76,6 @@ if __name__ == "__main__":
         train_data_path, test_data_path
     )
 
+    ## Model Trainer
     model_trainer = ModelTrainer()
     model_trainer.initiate_model_training(train_arr=train_arr, test_arr=test_arr)

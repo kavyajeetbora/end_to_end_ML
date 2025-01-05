@@ -93,12 +93,6 @@ class DataTransformer:
             preprocessor = self.get_data_transformer()
             logging.info("Preprocessor object created")
 
-            ## Save the preprocessor object
-            save_model(
-                file_path=self.processor_obj_file_path.preprocessor_obj_file_path,
-                obj=preprocessor,
-            )
-
             logging.info("Successfully exported the preprocessor object")
 
             ## Set the target and dependent variable
@@ -121,6 +115,15 @@ class DataTransformer:
             X_test = preprocessor.transform(X_test)
 
             logging.info("Concantenating the input and target features")
+
+            ## Save the preprocessor object
+            save_model(
+                file_path=self.processor_obj_file_path.preprocessor_obj_file_path,
+                obj=preprocessor,
+            )
+            logging.info(
+                "Save the preprocessor object once it is fitted from the training dataset"
+            )
 
             ## Concat the transformed input features X and target variable y into one single array
             train_arr = np.c_[X_train, np.array(y_train)]
